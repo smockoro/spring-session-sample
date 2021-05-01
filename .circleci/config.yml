@@ -39,3 +39,19 @@ jobs:
 
       # run tests!
       - run: gradle build
+
+      - store_test_results:
+          path: build/test-results/test
+
+      - store_artifacts:
+          path: build/reports/test
+          destination: junit
+      - store_artifacts:
+          path: build/reports/checkstyle
+          destination: checkstyle
+      - store_artifacts:
+          path: build/reports/spotbugs
+          destination: spotbugs
+      - store_artifacts:
+          path: build/reports/project/dependencies
+          destination: project-dependencies
