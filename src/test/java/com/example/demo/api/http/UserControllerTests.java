@@ -25,12 +25,15 @@
  */
 package com.example.demo.api.http;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.demo.domain.usecase.UserUsecase;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,6 +52,8 @@ class UserControllerTests {
   @Autowired
   private MockMvc mockMvc;
 
+  private Jedis jedis;
+
   @Autowired
   UserController controller;
 
@@ -57,7 +62,7 @@ class UserControllerTests {
 
   @BeforeEach
   void clearRedisData() {
-    Jedis jedis = new Jedis("localhost", 6379);
+    jedis = new Jedis("localhost", 6379);
     jedis.flushAll();
   }
 
@@ -70,6 +75,21 @@ class UserControllerTests {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(authenticated());
+
+    Set<String> redisResults = jedis.keys("*");
+    assertTrue(redisResults.size() > 0);
+
+    System.out.println(redisResults);
+  }
+
+  @Test
+  @DisplayName("Unauthorized")
+  void getUsersUnauthorized() throws Exception {
+    mockMvc.perform(
+        get("/users"))
+        .andDo(print())
+        .andExpect(status().isUnauthorized())
+        .andExpect(unauthenticated());
   }
 
 }
