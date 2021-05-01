@@ -40,6 +40,8 @@ jobs:
       # run tests!
       - run: gradle build
 
+      - run: gradle jacocoTestReport
+
       - store_test_results:
           path: build/test-results/test
 
@@ -55,3 +57,6 @@ jobs:
       - store_artifacts:
           path: build/reports/project/dependencies
           destination: project-dependencies
+      - store_artifacts:
+          path: build/reports/jacoco/test/html
+          destination: jacoco
