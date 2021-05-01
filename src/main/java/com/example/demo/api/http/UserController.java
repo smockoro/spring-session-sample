@@ -27,6 +27,8 @@ package com.example.demo.api.http;
 
 import com.example.demo.domain.model.User;
 import com.example.demo.domain.usecase.UserUsecase;
+import java.time.LocalDateTime;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +40,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserUsecase userUsecase;
+  private final HttpSession session;
 
   @GetMapping("/users")
   public User getUser() {
+    session.setAttribute("sample",
+        "Now is" + LocalDateTime.now());
     User user = new User("00001", "alice", 12);
     return user;
+  }
+
+  @GetMapping("/session")
+  public String getSession() {
+    String data = (String) session.getAttribute("sample");
+    session.invalidate();
+    return data;
   }
 }
