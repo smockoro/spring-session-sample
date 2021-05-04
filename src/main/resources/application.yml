@@ -26,11 +26,12 @@
 
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/library?serverTimezone=JST"
-    user: "root"
+    url: "jdbc:mysql://localhost:3306/userservice"
+    username: "root"
     password: "password"
-    driverClassName=com: "com.mysql.cj.jdbc.Driver"
+    driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: "localhost"
     port: 6379
-
+  session:
+    store-type: Redis

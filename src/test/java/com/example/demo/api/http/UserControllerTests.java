@@ -25,15 +25,15 @@
  */
 package com.example.demo.api.http;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.demo.domain.usecase.UserUsecase;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import redis.clients.jedis.Jedis;
 
@@ -55,6 +55,9 @@ class UserControllerTests {
   private Jedis jedis;
 
   @Autowired
+  ApplicationContext applicationContext;
+
+  @Autowired
   UserController controller;
 
   @MockBean
@@ -62,24 +65,23 @@ class UserControllerTests {
 
   @BeforeEach
   void clearRedisData() {
-    jedis = new Jedis("localhost", 6379);
+    String host = applicationContext.getEnvironment().getProperty("spring.redis.host");
+    String port = applicationContext.getEnvironment().getProperty("spring.redis.port");
+    System.out.println(port);
+    System.out.println(host);
+    jedis = new Jedis(host, Integer.parseInt(port));
     jedis.flushAll();
   }
 
   @Test
   @DisplayName("OK")
-  @WithMockUser(username = "admin", roles = "ADMIN")
   void getUsersTest() throws Exception {
     mockMvc.perform(
-        get("/users"))
+        get("/users").with(user("admin")))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(authenticated());
-
-    Set<String> redisResults = jedis.keys("*");
-    assertTrue(redisResults.size() > 0);
-
-    System.out.println(redisResults);
+        .andExpect(authenticated())
+        .andExpect(cookie().exists("SESSION"));
   }
 
   @Test
@@ -91,5 +93,4 @@ class UserControllerTests {
         .andExpect(status().isUnauthorized())
         .andExpect(unauthenticated());
   }
-
 }

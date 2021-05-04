@@ -23,6 +23,9 @@ jobs:
     steps:
       - checkout
 
+      - setup_remote_docker
+      - run: docker-compose -f devtool/docker/docker-compose.yaml up -d
+
       # Download and cache dependencies
       - restore_cache:
           keys:
