@@ -33,7 +33,10 @@ import lombok.Data;
 public class Book {
 
   private Long id;
+  private String isbn;
   private String title;
   private String author;
+  private String genre;
+  private String publisher;
   private String summary;
 }

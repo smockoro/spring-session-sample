@@ -26,26 +26,36 @@
 package com.example.demo.domain.model.helper;
 
 import com.example.demo.domain.model.Book;
-import com.github.javafaker.Faker;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
-public class FakeBookHelper implements FakerHelper<Book> {
-
-  private Faker faker;
+public class FakeBookHelper extends AbstractFakeHelper<Book> {
 
   @Override
   public Book create() {
-    return null;
+    return new Book(
+        Long.valueOf("0"),
+        faker.code().isbn13(),
+        faker.book().title(),
+        faker.book().author(),
+        faker.book().genre(),
+        faker.book().publisher(),
+        faker.lorem().paragraph()
+    );
   }
 
   @Override
   public List<Book> createBatch(Long batchSize) {
-    return null;
+    List<Book> books = new ArrayList<>();
+    for (int i = 0; i < batchSize; i++) {
+      books.add(this.create());
+    }
+    return books;
   }
 }

@@ -23,28 +23,13 @@
  *      SOFTWARE.
  * @formatter:on
  */
-package com.example.demo.domain.usecase;
+package com.example.demo.domain.model.helper;
 
-import com.example.demo.domain.repository.UserRepository;
-import com.github.javafaker.Faker;
-import java.io.IOException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+import java.util.List;
 
-@RequiredArgsConstructor
-@Slf4j
-@Service
-public class FakeUserInteractor implements FakeUserUsecase {
+public interface FakeHelper<T> {
 
-  private final Faker faker = new Faker();
-  private UserRepository userRepository;
+  T create();
 
-  @Async
-  @Override
-  public void createFakeUser(ResponseBodyEmitter emitter, Long fakeUserNum) throws IOException {
-
-  }
+  List<T> createBatch(Long batchSize);
 }

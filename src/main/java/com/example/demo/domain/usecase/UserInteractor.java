@@ -26,23 +26,27 @@
 package com.example.demo.domain.usecase;
 
 import com.example.demo.domain.model.User;
+import com.example.demo.domain.model.helper.FakeUserHelper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
+@Service
 public class UserInteractor implements UserUsecase {
 
+  private final FakeUserHelper fakeUserHelper;
+
   @Override
-  public String findOneUser(String useId) {
+  public User findOneUser(String useId) {
     return null;
   }
 
   @Override
-  public String findAllUser() {
-    return null;
+  public List<User> findAllUser() {
+    return fakeUserHelper.createBatch(Integer.toUnsignedLong(10));
   }
 
   @Override

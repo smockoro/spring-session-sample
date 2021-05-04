@@ -26,12 +26,13 @@
 package com.example.demo.domain.usecase;
 
 import com.example.demo.domain.model.User;
+import java.util.List;
 
 public interface UserUsecase {
 
-  public String findOneUser(String useId);
+  public User findOneUser(String useId);
 
-  public String findAllUser();
+  public List<User> findAllUser();
 
   public User createUser(User user);
 

@@ -32,7 +32,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class User {
 
-  private String id;
+  private Long id;
   private String name;
   private Integer age;
+  private String address;
+  private String phoneNumber;
+  private String emailAddress;
+  private String password;
 }

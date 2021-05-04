@@ -23,13 +23,42 @@
  *      SOFTWARE.
  * @formatter:on
  */
-package com.example.demo.domain.model.helper;
+package com.example.demo.store.repository;
 
+import com.example.demo.domain.model.User;
+import com.example.demo.domain.repository.UserRepository;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
-public interface FakerHelper<T> {
+@Repository
+@RequiredArgsConstructor
+@Slf4j
+public class UserMapper implements UserRepository {
 
-  T create();
+  @Override
+  public User findOne(Long id) {
+    return null;
+  }
 
-  List<T> createBatch(Long batchSize);
+  @Override
+  public Boolean registerOne(User user) {
+    return null;
+  }
+
+  @Override
+  public Boolean register(List<User> users) {
+    return null;
+  }
+
+  @Override
+  public Boolean deleteOne(Long id) {
+    return null;
+  }
+
+  @Override
+  public Boolean delete() {
+    return null;
+  }
 }

@@ -26,26 +26,36 @@
 package com.example.demo.domain.model.helper;
 
 import com.example.demo.domain.model.User;
-import com.github.javafaker.Faker;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
 @Slf4j
 @Component
-public class FakerUserHelper implements FakerHelper<User> {
-
-  private Faker faker;
+@RequiredArgsConstructor
+public class FakeUserHelper extends AbstractFakeHelper<User> {
 
   @Override
   public User create() {
-    return null;
+    return new User(
+        Long.parseLong("0"),
+        super.faker.name().fullName(),
+        super.faker.random().nextInt(1, 100),
+        super.faker.address().fullAddress(),
+        super.faker.phoneNumber().phoneNumber(),
+        super.faker.internet().safeEmailAddress(),
+        super.faker.internet().password()
+    );
   }
 
   @Override
   public List<User> createBatch(Long batchSize) {
-    return null;
+    List<User> users = new ArrayList<>();
+    for (int i = 0; i < batchSize; i++) {
+      users.add(this.create());
+    }
+    return users;
   }
 }
