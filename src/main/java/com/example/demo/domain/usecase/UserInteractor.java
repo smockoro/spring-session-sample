@@ -64,4 +64,5 @@ public class UserInteractor implements UserUsecase {
   public Boolean deleteAllUser() {
     return null;
   }
+
 }

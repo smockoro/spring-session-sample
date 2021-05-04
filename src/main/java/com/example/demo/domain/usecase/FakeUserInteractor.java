@@ -23,31 +23,28 @@
  *      SOFTWARE.
  * @formatter:on
  */
-package com.example.demo.api.http;
+package com.example.demo.domain.usecase;
 
-import com.example.demo.domain.model.User;
-import com.example.demo.domain.usecase.UserUsecase;
+import com.example.demo.domain.repository.UserRepository;
+import com.github.javafaker.Faker;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
-@RestController
-@Slf4j
 @RequiredArgsConstructor
-public class UserController {
+@Slf4j
+@Component
+public class FakeUserInteractor implements FakeUserUsecase {
 
-  private final UserUsecase userUsecase;
+  private final Faker faker = new Faker();
+  private UserRepository userRepository;
 
-  @GetMapping("/users")
-  public User getUser() {
-    User user = new User("00001", "alice", 12);
-    return user;
-  }
-
-  @PostMapping("/fake-users")
-  public String createFakeUsers() {
-    return null;
+  @Async
+  @Override
+  public void createFakeUser(ResponseBodyEmitter emitter, Long fakeUserNum) throws IOException {
+    
   }
 }

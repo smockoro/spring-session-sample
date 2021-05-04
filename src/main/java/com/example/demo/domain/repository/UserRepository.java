@@ -23,31 +23,20 @@
  *      SOFTWARE.
  * @formatter:on
  */
-package com.example.demo.api.http;
+package com.example.demo.domain.repository;
 
 import com.example.demo.domain.model.User;
-import com.example.demo.domain.usecase.UserUsecase;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
-@RestController
-@Slf4j
-@RequiredArgsConstructor
-public class UserController {
+public interface UserRepository {
 
-  private final UserUsecase userUsecase;
+  User findOne(Long id);
 
-  @GetMapping("/users")
-  public User getUser() {
-    User user = new User("00001", "alice", 12);
-    return user;
-  }
+  Boolean registerOne(User user);
 
-  @PostMapping("/fake-users")
-  public String createFakeUsers() {
-    return null;
-  }
+  Boolean register(List<User> users);
+
+  Boolean deleteOne(Long id);
+
+  Boolean delete();
 }

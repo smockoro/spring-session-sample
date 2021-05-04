@@ -23,31 +23,29 @@
  *      SOFTWARE.
  * @formatter:on
  */
-package com.example.demo.api.http;
+package com.example.demo.domain.model.helper;
 
-import com.example.demo.domain.model.User;
-import com.example.demo.domain.usecase.UserUsecase;
+import com.example.demo.domain.model.Book;
+import com.github.javafaker.Faker;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
-@RestController
+@Component
 @Slf4j
 @RequiredArgsConstructor
-public class UserController {
+public class FakeBookHelper implements FakerHelper<Book> {
 
-  private final UserUsecase userUsecase;
+  private Faker faker;
 
-  @GetMapping("/users")
-  public User getUser() {
-    User user = new User("00001", "alice", 12);
-    return user;
+  @Override
+  public Book create() {
+    return null;
   }
 
-  @PostMapping("/fake-users")
-  public String createFakeUsers() {
+  @Override
+  public List<Book> createBatch(Long batchSize) {
     return null;
   }
 }
