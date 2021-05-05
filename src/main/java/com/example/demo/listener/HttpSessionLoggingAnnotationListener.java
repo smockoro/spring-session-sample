@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class HttpSessionLoggingListener {
+public class HttpSessionLoggingAnnotationListener {
 
   @EventListener
   public void sessionCreated(HttpSessionCreatedEvent httpSessionEvent) {
