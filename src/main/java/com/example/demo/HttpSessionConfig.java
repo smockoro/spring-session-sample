@@ -25,8 +25,6 @@
  */
 package com.example.demo;
 
-import com.example.demo.listener.HttpSessionLoggingListener;
-import javax.servlet.http.HttpSessionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -47,8 +45,4 @@ public class HttpSessionConfig {
     return new HttpSessionEventPublisher();
   }
 
-  @Bean
-  public HttpSessionListener httpSessionLoggingListener() {
-    return new HttpSessionLoggingListener();
-  }
 }
