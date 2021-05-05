@@ -25,9 +25,9 @@
  */
 package com.example.demo.domain.usecase;
 
+import com.example.demo.domain.model.User;
+import com.example.demo.domain.model.helper.FakeUserHelper;
 import com.example.demo.domain.repository.UserRepository;
-import com.github.javafaker.Faker;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -39,12 +39,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 @Service
 public class FakeUserInteractor implements FakeUserUsecase {
 
-  private final Faker faker = new Faker();
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
+  private final FakeUserHelper fakeUserHelper;
 
   @Async
   @Override
-  public void createFakeUser(ResponseBodyEmitter emitter, Long fakeUserNum) throws IOException {
+  public void createFakeUser(ResponseBodyEmitter emitter, Long fakeUserNum) {
+    log.info("create fake user start");
 
+    Long batchSize = 10L;
+
+    for (int i = 0; i < fakeUserNum; i++) {
+      User user = fakeUserHelper.create();
+      userRepository.registerOne(user);
+    }
+
+    emitter.complete();
+    log.info("create fake user end");
   }
 }

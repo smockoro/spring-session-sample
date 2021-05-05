@@ -28,12 +28,16 @@ package com.example.demo.api.http;
 import com.example.demo.domain.model.User;
 import com.example.demo.domain.usecase.FakeUserUsecase;
 import com.example.demo.domain.usecase.UserUsecase;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 @RestController
 @Slf4j
@@ -49,7 +53,11 @@ public class UserController {
   }
 
   @PostMapping("/fake-users")
-  public String createFakeUsers() {
-    return null;
+  public ResponseEntity<Object> createFakeUsers(@RequestParam(defaultValue = "1000") Long num)
+      throws IOException {
+    ResponseBodyEmitter emitter = new ResponseBodyEmitter();
+    fakeUserUsecase.createFakeUser(emitter, num);
+
+    return ResponseEntity.accepted().body(null);
   }
 }

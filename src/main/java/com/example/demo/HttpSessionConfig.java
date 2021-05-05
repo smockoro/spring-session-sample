@@ -25,17 +25,30 @@
  */
 package com.example.demo;
 
+import com.example.demo.listener.HttpSessionLoggingListener;
+import javax.servlet.http.HttpSessionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
-@EnableRedisHttpSession
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 10)
 public class HttpSessionConfig {
 
   @Bean
   public JedisConnectionFactory connectionFactory() {
     return new JedisConnectionFactory();
+  }
+
+  @Bean
+  public HttpSessionEventPublisher httpSessionEventPublisher() {
+    return new HttpSessionEventPublisher();
+  }
+
+  @Bean
+  public HttpSessionListener httpSessionLoggingListener() {
+    return new HttpSessionLoggingListener();
   }
 }

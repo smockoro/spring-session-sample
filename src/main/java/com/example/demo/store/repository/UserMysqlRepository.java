@@ -35,16 +35,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class UserMapper implements UserRepository {
+public class UserMysqlRepository implements UserRepository {
+
+  private final UserMysqlMapper userMysqlMapper;
 
   @Override
   public User findOne(Long id) {
-    return null;
+    return userMysqlMapper.selectById(id);
   }
 
   @Override
   public Boolean registerOne(User user) {
-    return null;
+    return userMysqlMapper.insert(user);
   }
 
   @Override

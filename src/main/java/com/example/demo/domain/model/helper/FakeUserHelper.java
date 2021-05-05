@@ -44,7 +44,7 @@ public class FakeUserHelper extends AbstractFakeHelper<User> {
         super.faker.name().fullName(),
         super.faker.random().nextInt(1, 100),
         super.faker.address().fullAddress(),
-        super.faker.phoneNumber().phoneNumber(),
+        super.faker.phoneNumber().cellPhone(),
         super.faker.internet().safeEmailAddress(),
         super.faker.internet().password()
     );
